@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cyber-safety-crew"
-version = "0.1.0"
+version = "0.2.0"
 description = "Offline evidence coordination for authorized community cybersecurity assessments"
 requires-python = ">=3.11"
 dependencies = []

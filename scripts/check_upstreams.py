@@ -51,8 +51,8 @@ def main():
     parser.add_argument("--output", type=Path, default=Path("upstreams.candidate.json"))
     parser.add_argument("--summary", type=Path, default=Path("upstream-review.md"))
     args = parser.parse_args()
-    if args.lock.resolve() == args.output.resolve():
-        parser.error("Candidate output must not overwrite the reviewed lock")
+    if len({args.lock.resolve(), args.output.resolve(), args.summary.resolve()}) != 3:
+        parser.error("Reviewed lock, candidate output and summary must use distinct paths")
     lock = json.loads(args.lock.read_text())
     candidate, changed = propose(lock)
     before, after = json.dumps(lock, indent=2) + "\n", json.dumps(candidate, indent=2) + "\n"

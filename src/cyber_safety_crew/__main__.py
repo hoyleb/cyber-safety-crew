@@ -5,7 +5,7 @@ import json
 import os
 from pathlib import Path
 
-from .core import Assessment, Scope, read_bytes, report
+from .core import Assessment, Scope, INPUT_KINDS, load_json, read_bytes, report
 
 
 def main(argv=None):
@@ -16,11 +16,12 @@ def main(argv=None):
     assess.add_argument("--zeek", type=Path, action="append", default=[])
     assess.add_argument("--nuclei", type=Path, action="append", default=[])
     assess.add_argument("--manual", type=Path, action="append", default=[])
+    assess.add_argument("--inventory", type=Path, action="append", default=[])
     assess.add_argument("--output", type=Path, required=True, help="New output directory")
     args = parser.parse_args(argv)
     try:
-        assessment = Assessment(Scope(json.loads(read_bytes(args.scope))))
-        for kind in ("zeek", "nuclei", "manual"):
+        assessment = Assessment(Scope(load_json(read_bytes(args.scope))))
+        for kind in INPUT_KINDS:
             for path in getattr(args, kind):
                 assessment.ingest(kind, path)
         if not assessment.sources:
@@ -33,7 +34,7 @@ def main(argv=None):
             with (args.output / filename).open("x", encoding="utf-8") as handle:
                 os.chmod(handle.name, 0o600)
                 handle.write(content)
-    except (ValueError, OSError, KeyError, TypeError) as exc:
+    except (ValueError, OSError, KeyError, TypeError, RecursionError) as exc:
         parser.exit(2, f"Assessment failed: {exc}\n")
     print(f"Created {args.output / 'report.md'} and assessment.json (offline review only)")
 

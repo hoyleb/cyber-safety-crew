@@ -11,7 +11,7 @@ We use a monorepo for our packages and instructions, with external versioned too
 | Logical package | Present implementation | Boundary |
 | --- | --- | --- |
 | Core/scope | `src/cyber_safety_crew/core.py: Scope` | IP/CIDR report filtering; no assertion of legal authorization |
-| Evidence adapters | `Assessment.ingest` | Zeek JSON connection logs, Nuclei JSONL, our manual JSONL |
+| Evidence adapters | `Assessment.ingest` | Transactional Zeek JSON connection logs, Nuclei JSONL, manual findings and device inventory |
 | Reporting | `report` and CLI | Deterministic Markdown and normalized JSON; escaped untrusted text |
 | Profiles | `profiles/refrigeration.json` | Assessment checklist metadata, not executable tests |
 | Upstream review | `scripts/check_upstreams.py` | Explicit maintainer network operation; separate from assessment |
@@ -22,11 +22,13 @@ The initial code keeps modules small in one installable Python package. Split in
 
 ## Evidence contract v1
 
-An assessment contains an ID, site, authorization reference, offline mode, IP inventory, connection record count, imported sources, normalized findings and limitations. Each source has a kind, basename and SHA-256. Each finding has a stable ID, literal-IP target, check ID used for deduplication, title, severity, evidence status, remediation text, optional reviewer and source/line references. The check ID is also included in the stable ID derivation.
+An assessment contains an ID, site, authorization reference, offline mode, approved asset ranges, tool version, IP inventory, optional device inventory, connection record count, imported sources, normalized findings and limitations. Device inventory carries collector-supplied model/firmware plus collection metadata (see INVENTORY.md). Each source has a kind, basename and SHA-256. Each finding has a stable ID, literal-IP target, check ID used for deduplication, title, severity, evidence status, remediation text, optional reviewer and source/line references. The check ID is also included in the stable ID derivation. New v0.2 fields are additive to schema v1; consumers must tolerate unknown optional fields.
 
 Severity describes consequence; status describes evidence. They must remain separate. Imported Nuclei results are `potential` regardless of severity. Manual `confirmed` is a human declaration requiring a reviewer name, not a cryptographic or automated validation of that person. Contradictory duplicate findings fail import for reconciliation.
 
-No real vulnerability detection rule is included in v0.1. Zeek imports inventory only. The synthetic Nuclei record demonstrates normalization, not a known vulnerability. There is no firmware-advisory matching engine yet.
+No real vulnerability detection rule is included in v0.2. Zeek imports address inventory only. The synthetic Nuclei record demonstrates normalization, not a known vulnerability. Device model/firmware is collector-supplied metadata, not a finding. There is no firmware-advisory matching engine yet.
+
+Each file is imported into staged state and committed only if all records succeed. `result()` returns a deep snapshot so downstream callers cannot mutate the internal evidence accidentally. Duplicate object keys and non-JSON numeric constants are rejected before interpretation. Strict string IP handling avoids Python's numeric-IP coercions. Nuclei literal-IP fields must agree, but the importer cannot authenticate the original collection or verify hostname-to-IP mappings retroactively.
 
 ## Future execution boundary
 

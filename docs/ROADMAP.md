@@ -10,9 +10,11 @@
 
 Limit: no real-device integration validation, capture, live probes, native CSET import, arbitrary Malcolm export import, firmware advisory matching, model integration, encrypted case store or automated retest comparison.
 
-## M1 — Validate useful field evidence
+## M1 — Validate useful field evidence: in progress
 
-Choose supported upstream releases. Obtain sanitized real-format fixtures and add versioned adapter tests. Support Zeek TSV conversion or explicitly document the approved JSON export procedure. Implement a selected Malcolm export format and determine whether a CSET export parser is useful. Add device inventory fields (model, firmware, evidence source, timestamp), provenance metadata and a reviewed vendor-advisory matching mechanism. Add assessment comparison.
+Implemented in v0.2: collector-supplied manufacturer/model/firmware inventory with timezone-aware collection timestamps and source references; transactional imports; strict evidence validation; independent report snapshots; report tool version and approved asset ranges.
+
+Remaining: choose supported upstream releases, obtain sanitized real-format fixtures and add versioned adapter tests. Support Zeek TSV conversion or explicitly document the approved JSON export procedure. Implement a selected Malcolm export format and determine whether a CSET export parser is useful. Add collection metadata for the other evidence types, a reviewed vendor-advisory matching mechanism and assessment comparison.
 
 Acceptance: a representative offline pilot produces a report whose factual claims can all be traced to source evidence; unsupported or missing data is explicit. No active traffic is required for this milestone.
 

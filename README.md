@@ -2,7 +2,7 @@
 
 One coordinating repository for authorized community cybersecurity assessments of shops and other small facilities. Start with refrigeration; keep the evidence model reusable for other equipment.
 
-**Status: working offline starter, v0.1.0.** This package imports evidence and generates reports. It does not run Zeek, Malcolm, Nuclei or CSET; capture traffic; send probes; use an LLM; or modify equipment. Adapters are tested with synthetic fixtures, not real installations. The live assessment workflow is specified for subsequent implementation.
+**Status: working offline starter, v0.2.0.** This package imports evidence and device inventory and generates reports. It does not run Zeek, Malcolm, Nuclei or CSET; capture traffic; send probes; use an LLM; or modify equipment. Adapters are tested with synthetic fixtures, not real installations. The live assessment workflow is specified for subsequent implementation.
 
 ## Try it
 
@@ -24,6 +24,7 @@ PYTHONPATH=src python3 -m cyber_safety_crew assess \
   --zeek examples/conn.jsonl \
   --nuclei examples/nuclei.jsonl \
   --manual examples/manual.jsonl \
+  --inventory examples/inventory.jsonl \
   --output demo-output
 ```
 
@@ -32,7 +33,7 @@ For an installed CLI, create a virtual environment and run `python -m pip instal
 The release archive also contains a prebuilt wheel in `release/`. Inside an activated Python 3.11+ virtual environment, install it without contacting a package index:
 
 ```bash
-python -m pip install --no-index --no-deps release/cyber_safety_crew-0.1.0-py3-none-any.whl
+python -m pip install --no-index --no-deps release/cyber_safety_crew-0.2.0-py3-none-any.whl
 ```
 
 The wheel installs the CLI/runtime only. Runbook, profiles, examples and maintainer tools remain in the source folder.
@@ -53,6 +54,7 @@ The original projects remain independent. We coordinate their outputs, supported
 
 - Offline Python CLI and reusable import/report functions.
 - One evidence format with source hashes and record references.
+- Device model/firmware inventory with collector, timezone-aware collection time and source references.
 - Scope filtering, input limits, no DNS resolution, and explicit evidence status.
 - Synthetic examples and regression tests, including rejection cases.
 - A refrigeration assessment profile and one operator runbook.
@@ -64,9 +66,11 @@ Read `docs/RUNBOOK.md` for the field process; `docs/ARCHITECTURE.md` for boundar
 
 ## Input and report boundaries
 
-`--zeek`, `--nuclei`, and `--manual` can each be repeated. Nuclei targets must have an in-scope literal IP in `ip`, `host` or `matched-at`; hostname-only records are rejected without resolution. The `ip` field is preferred when present. Zeek connections to outside addresses contribute to the connection count, but outside addresses are omitted from reported inventory. A finding outside scope fails the entire CLI operation before output creation.
+`--zeek`, `--nuclei`, `--manual`, and `--inventory` can each be repeated. Nuclei records require one consistent in-scope literal IP across `ip`, `host` and `matched-at`; conflicting IPs and hostname-only records are rejected without DNS resolution. Hostnames accompanied by a recorded IP are accepted as evidence text. Zeek connections to outside addresses contribute to the connection count, but outside addresses are omitted from reported inventory. A finding or inventory device outside scope fails the entire CLI operation before output creation.
 
-Sources are bounded at 10 MiB and 100,000 lines each. All inputs are validated before output is created. Results are written to a new directory with restrictive POSIX permissions; on Windows use filesystem ACLs/encrypted storage appropriate to the engagement. A disk failure during output writing can still leave an incomplete directory: rerun to a new path. The reusable `Assessment` object must be discarded if any import raises.
+Sources are bounded at 10 MiB and 100,000 data records each. Duplicate JSON keys, non-JSON numeric constants, numeric IP/range values and malformed evidence fields are rejected. All inputs are validated before output is created. Each file import is transactional: a failure leaves the reusable `Assessment` unchanged. Results are independent snapshots. Reports are written to a new directory with restrictive POSIX permissions; on Windows use filesystem ACLs/encrypted storage appropriate to the engagement. A disk failure during output writing can still leave an incomplete directory: rerun to a new path.
+
+Device inventory follows the contract in `docs/INVENTORY.md`. It records collector-supplied identity and firmware; it does not independently verify a device or infer vulnerability from a version string.
 
 Raw HTTP requests/responses and full packet payloads are not copied into normalized findings. IP addresses, source filenames and manually authored text can still be sensitive. Review reports before sharing. Hashes identify bytes; they do not prove authorship, trusted collection or authenticity.
 

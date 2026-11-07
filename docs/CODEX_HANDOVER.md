@@ -8,7 +8,7 @@ Read README.md, AGENTS.md, docs/ARCHITECTURE.md, docs/ROADMAP.md and docs/UPSTRE
 
 ## First useful implementation task
 
-Advance M1: select a supported Zeek release and add sanitized real JSON connection-log fixtures with acquisition/version metadata; add a documented firmware inventory schema. Do not launch third-party tools or query real targets just to populate examples.
+Advance M1: select a supported Zeek release and add sanitized real JSON connection-log fixtures with acquisition/version metadata. Device inventory schema/import support is already available in v0.2 (docs/INVENTORY.md); extend collection metadata consistently to the other evidence types. Do not launch third-party tools or query real targets just to populate examples.
 
 Then implement advisory matching against a small reviewed manufacturer data set. Match exact product/firmware and preserve uncertainty for ambiguous versions. Do not invent vulnerabilities or treat lexical string version ordering as a universal firmware comparison algorithm. Support vendor-specific version schemes and regression fixtures.
 

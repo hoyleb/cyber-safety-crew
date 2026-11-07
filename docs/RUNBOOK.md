@@ -10,6 +10,8 @@ Create an engagement copy of `examples/scope.json` outside Git. Use a genuine au
 
 Request equipment model/firmware inventories, network diagrams, remote maintenance arrangements, account policies and update/support information. Prefer relevant exports and metadata over broad captures. Apply the checklist in `profiles/refrigeration.json`.
 
+Normalize device details into the JSONL format in `docs/INVENTORY.md` and pass it with `--inventory`. Record manufacturer, model, firmware, collector, collection time with timezone and the source reference. These are declared observations; a firmware string is not proof of a vulnerability. Conflicting details for one target must be reconciled before import.
+
 For existing Zeek captures, obtain JSON Lines connection logs. Tab-separated Zeek logs are not supported by this importer. Malcolm users can supply the corresponding Zeek-format evidence; arbitrary Malcolm/OpenSearch exports require a future adapter. Collecting live traffic requires an appropriate mirror/TAP setup or a capture supplied by the operator; joining guest Wi-Fi does not make other network traffic visible.
 
 Existing Nuclei JSONL findings may be imported if their collection was separately authorized. The importer does not run Nuclei or retroactively validate the collection. IP-only target checks do not establish that the original scan stayed in scope.
@@ -18,7 +20,7 @@ CSET findings can be manually summarized into our `examples/manual.jsonl` format
 
 ## 3. Review offline
 
-Run `csc assess` or its source-based equivalent in README.md with fresh output paths. Out-of-scope finding targets or malformed records fail the operation. For legitimate hostname results, obtain a documented IP mapping from the collection time; do not casually resolve historical hostnames and pretend they identify the same equipment.
+Run `csc assess` or its source-based equivalent in README.md with fresh output paths. Out-of-scope finding/inventory targets, conflicting Nuclei literal IPs or malformed records fail the operation. The failed file import leaves existing assessment state unchanged. For legitimate hostname results, obtain a documented IP mapping from the collection time; do not casually resolve historical hostnames and pretend they identify the same equipment.
 
 Read the report's coverage limitations. Check model, firmware and exact manufacturer guidance before turning a suspected vulnerability into an action. Confirmations must be documented by a reviewer; scanner output alone is not proof of exploitability.
 
