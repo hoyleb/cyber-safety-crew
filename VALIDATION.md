@@ -7,4 +7,10 @@
 - Synthetic CLI demonstration: produced a Markdown report and normalized JSON with two observed in-scope assets and two imported findings, with limitations and source references.
 - Upstream bookmarks: source commit metadata retrieved from GitHub for Zeek, Malcolm, Nuclei, Nuclei Templates and CSET on 7 November 2026. The checkout action commit was resolved from its v4 tag.
 
-No production targets, network probes, packet captures or refrigeration controllers were exercised. The third-party products were not installed or launched. Adapter fixtures are synthetic; this is not equipment compatibility validation. The GitHub workflow is supplied but has not run in a hosted repository. The update proposal logic was tested with fixture responses; the Python checker's live HTTP path was not exercised in this environment.
+## Hosted publication
+
+Published to https://github.com/hoyleb/cyber-safety-crew on 7 November 2026. The initial full-source commit is `5d4f9e5905eb5c572bf60b7b2ee1bda9f62cca74`. GitHub Actions completed `make test` and `make demo` successfully: https://github.com/hoyleb/cyber-safety-crew/actions/runs/42367382685.
+
+The upstream-review job was correctly skipped for this push event; it is configured for the weekly schedule and manual workflow dispatch. Its live HTTP path has not yet been exercised by this publication. The update proposal logic was tested with fixture responses.
+
+No production targets, network probes, packet captures or refrigeration controllers were exercised. The third-party products were not installed or launched. Adapter fixtures are synthetic; this is not equipment compatibility validation.
