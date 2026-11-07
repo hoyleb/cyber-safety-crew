@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-11-07",
+  "purpose": "Upstream source snapshots for review; not installed packages or validated compatibility pins.",
+  "projects": {
+    "zeek": {
+      "repository": "zeek/zeek",
+      "url": "https://github.com/zeek/zeek",
+      "observed_commit": "5862ccc5e13e6127cda5932a7f18aaf070c8b63b",
+      "observed_commit_date": "2026-11-05T19:42:29Z",
+      "role": "json-conn-import",
+      "compatibility": "not integration-tested against this snapshot"
+    },
+    "malcolm": {
+      "repository": "cisagov/Malcolm",
+      "url": "https://github.com/cisagov/Malcolm",
+      "observed_commit": "8383fc77549fdb2308dda21eab1ebe55d4e18da3",
+      "observed_commit_date": "2026-11-03T17:55:50Z",
+      "role": "zeek-json-evidence-path",
+      "compatibility": "not integration-tested against this snapshot"
+    },
+    "nuclei": {
+      "repository": "projectdiscovery/nuclei",
+      "url": "https://github.com/projectdiscovery/nuclei",
+      "observed_commit": "8cda90655970270b215749b42ab59ecc38669293",
+      "observed_commit_date": "2026-11-06T23:12:10Z",
+      "role": "jsonl-results-import-only",
+      "compatibility": "not integration-tested against this snapshot"
+    },
+    "cset": {
+      "repository": "cisagov/cset",
+      "url": "https://github.com/cisagov/cset",
+      "observed_commit": "7f9df390da40e872704e590fc12aee2991dfd027",
+      "observed_commit_date": "2026-10-09T16:09:30Z",
+      "role": "manual-assessment-reference",
+      "compatibility": "not integration-tested against this snapshot"
+    },
+    "nuclei-templates": {
+      "repository": "projectdiscovery/nuclei-templates",
+      "url": "https://github.com/projectdiscovery/nuclei-templates",
+      "observed_commit": "52d0a07e15251ee5413b2c6a3c97b8f3e20e0c28",
+      "observed_commit_date": "2026-11-07T03:10:35Z",
+      "role": "future curated checks; no templates included or executed",
+      "compatibility": "not integration-tested against this snapshot"
+    }
+  }
+}

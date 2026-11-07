@@ -1,0 +1,2 @@
+{"ts":1794048000,"uid":"synthetic-1","id.orig_h":"192.0.2.10","id.orig_p":53000,"id.resp_h":"192.0.2.20","id.resp_p":443,"proto":"tcp","service":"ssl"}
+{"ts":1794048001,"uid":"synthetic-2","id.orig_h":"192.0.2.20","id.orig_p":53001,"id.resp_h":"198.51.100.8","id.resp_p":443,"proto":"tcp","service":"ssl"}

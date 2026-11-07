@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "profile_id": "refrigeration-review-v0.1",
+  "status": "manual checklist only; not executable and not validated against real devices",
+  "checks": [
+    {"id": "REF-001", "question": "Which exact controller model, firmware and support lifecycle apply?", "evidence": "Maintainer inventory and manufacturer support/advisory records"},
+    {"id": "REF-002", "question": "Is a management interface publicly reachable, and from which vantage was that established?", "evidence": "Owner firewall/NAT configuration plus separately approved reachability evidence"},
+    {"id": "REF-003", "question": "How is supplier remote maintenance protected, restricted and audited?", "evidence": "Documented gateway/VPN controls, accounts, MFA where supported, access scope and logs"},
+    {"id": "REF-004", "question": "Can unrelated guest, office or checkout networks reach refrigeration management?", "evidence": "Network/firewall review and, only where separately approved, bounded segmentation checks"},
+    {"id": "REF-005", "question": "Are shared/default accounts removed and privileges limited?", "evidence": "Maintainer account/configuration review; no password guessing"},
+    {"id": "REF-006", "question": "Are temperature alarms independent enough to detect a compromised controller?", "evidence": "Alarm architecture and maintainer-approved test records"},
+    {"id": "REF-007", "question": "Are updates, backups, safe recovery and responsible contacts documented?", "evidence": "Change records, restore procedure, support arrangements and approved recovery tests"}
+  ],
+  "live_check_ids": [],
+  "automatic_remediation": false
+}

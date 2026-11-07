@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+build/
+dist/
+demo-output/
+assessments/
+captures/
+private/
+upstreams.candidate.json
+upstream-review.md
+release/*.whl

@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "assessment_id": "SYNTHETIC-DEMO-001",
+  "site": "Fictional demo shop; not a real assessment",
+  "authorization_ref": "SYNTHETIC EXAMPLE ONLY",
+  "mode": "offline",
+  "asset_ranges": ["192.0.2.0/24"]
+}

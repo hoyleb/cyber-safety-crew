@@ -1,0 +1,1 @@
+{"schema_version":1,"check_id":"synthetic-maintenance-review","target":"192.0.2.20","title":"Synthetic remote maintenance review pending","severity":"info","status":"untested","remediation":"Ask the refrigeration maintainer to document the remote access route and confirm its protections."}

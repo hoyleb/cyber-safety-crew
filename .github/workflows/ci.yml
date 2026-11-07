@@ -1,0 +1,35 @@
+name: Tests and upstream review
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '23 7 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4 observed 2026-11-07
+        with:
+          persist-credentials: false
+      - run: make test
+      - run: make demo
+
+  upstream-review:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4 observed 2026-11-07
+        with:
+          persist-credentials: false
+      - name: Propose source snapshots without changing the reviewed lock
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/check_upstreams.py
+      - name: Publish the review diff in the run summary
+        run: cat upstream-review.md >> "$GITHUB_STEP_SUMMARY"
